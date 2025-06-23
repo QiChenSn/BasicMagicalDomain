@@ -13,5 +13,6 @@ public class LangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(EarthRune.EARTH_RUNE.get(), "Earth Rune");
+        add("itemGroup." + BasicMagicalDomain.MODID + ".item","Item Tab");
     }
 }

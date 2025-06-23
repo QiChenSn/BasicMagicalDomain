@@ -4,6 +4,7 @@ import com.qichen.basicmagicaldomain.datagen.ModDataGenerator;
 import com.qichen.basicmagicaldomain.item.ModCreativeTab;
 import com.qichen.basicmagicaldomain.item.ModItemRegister;
 import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.EventBus;
 import org.slf4j.Logger;
 
@@ -23,6 +24,8 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+
+import java.util.UUID;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(BasicMagicalDomain.MODID)
@@ -53,10 +56,13 @@ public class BasicMagicalDomain {
 
     }
 
+    public static Player getPlayerById(UUID playerId) {
+        return null;
+    }
+
     private void commonSetup(FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-
     }
 
 
