@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class EarthRune extends MagicalRune{
 
     public EarthRune(Properties properties, int type, int range) {
-        super(properties, Earth, 5);
+        super(properties, MagicalRune.Earth, 5);
     }
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(BasicMagicalDomain.MODID);
