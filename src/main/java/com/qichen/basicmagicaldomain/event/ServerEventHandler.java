@@ -10,7 +10,6 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 @EventBusSubscriber(modid = BasicMagicalDomain.MODID)
 public class ServerEventHandler {
-
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Post event) {
         MinecraftServer server = event.getServer();

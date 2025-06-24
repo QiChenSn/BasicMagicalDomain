@@ -2,6 +2,7 @@ package com.qichen.basicmagicaldomain.datagen;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
 import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
+import com.qichen.basicmagicaldomain.item.custom.rune.WoodRune;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
@@ -17,6 +18,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         handheldItem(EarthRune.EARTH_RUNE);
+        handheldItem(WoodRune.Wood_Rune);
     }
     private ItemModelBuilder handheldItem(DeferredItem<?> item) {
         return withExistingParent(item.getId().getPath(),

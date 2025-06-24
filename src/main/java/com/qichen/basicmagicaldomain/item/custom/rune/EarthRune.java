@@ -28,96 +28,37 @@ import org.slf4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class EarthRune extends MagicalRune {
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    // 使用时长（单位：tick，60 tick = 3秒）
-    private static final int USE_DURATION = 60;
-
-    // 效果范围（以玩家为中心的半径）
-    private final int range;
-
-    // 效果持续时间（秒）
-    private final int effectTime;
-
     // 存储玩家激活效果的计时器（玩家UUID -> 剩余时间）
     private static final Map<UUID, Integer> activeEffects = new HashMap<>();
 
-    public EarthRune(Properties properties, int type, int range, int effectTime) {
-        super(properties, MagicalRune.Earth, 5, range);
-        this.range = range;
-        this.effectTime = effectTime * 20; // 转换为tick
+    public EarthRune(Properties properties, int type, int USE_DURATION, int range, int effect_time) {
+        super(properties, MagicalRune.Earth, USE_DURATION,range,effect_time);
     }
 
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(BasicMagicalDomain.MODID);
     public static final DeferredItem<Item> EARTH_RUNE = ITEMS.register("earth_rune",()->
-            new EarthRune(new Item.Properties(), Earth, 30, 60) // 范围30格，持续60秒
+            new EarthRune(new Item.Properties(), Earth, 60,16, 60*20) // 范围30格，持续60秒
     );
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        ItemStack stack = player.getItemInHand(usedHand);
 
-        // 仅在服务器端启动使用过程
-        if (!level.isClientSide) {
-            LOGGER.info("开始蓄力");
-            player.startUsingItem(usedHand);
-        }
-
-        // 播放开始使用的音效
-        level.playSound(player, player.getX(), player.getY(), player.getZ(),
-                SoundEvents.STONE_PRESSURE_PLATE_CLICK_ON,
-                SoundSource.PLAYERS,
-                0.5F, 0.8F);
-
-        return InteractionResultHolder.consume(stack);
-    }
-
-    @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
-        // 计算实际使用时间（单位：tick）
-        int useTime = this.getUseDuration(stack,entity) - timeLeft;
-
-        // 仅在服务器端处理
-        if (!level.isClientSide && entity instanceof Player) {
-            Player player = (Player) entity;
-
-            // 检查是否达到3秒（60 tick）
-            if (useTime >= USE_DURATION) {
-                LOGGER.info("符文使用成功！");
-
-                // 播放成功音效
-                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(),
-                        SoundEvents.ENCHANTMENT_TABLE_USE,
-                        SoundSource.PLAYERS,
-                        1.0F, 1.0F);
-
-                // 激活植物生长效果
-                activateGrowthEffect(player);
-
-                // 消耗一个符文（可选）
-                if (!player.getAbilities().instabuild) {
-                    stack.shrink(1);
-                }
-            } else {
-                LOGGER.info("蓄力中断，使用取消");
-            }
-        }
-    }
 
     // 激活植物生长效果
     private void activateGrowthEffect(Player player) {
         UUID playerId = player.getUUID();
 
         // 设置效果持续时间
-        activeEffects.put(playerId, effectTime);
+        activeEffects.put(playerId, this.effect_time);
 
         // 立即应用一次效果
         applyGrowthEffect(player);
 
-        LOGGER.info("已激活植物生长效果，范围: {}格，持续时间: {}秒", range, effectTime / 20);
+        //LOGGER.info("已激活植物生长效果，范围: {}格，持续时间: {}秒", range, this.effect_time / 20);
     }
 
     // 应用植物生长效果
@@ -153,7 +94,7 @@ public class EarthRune extends MagicalRune {
                 }
             }
 
-            LOGGER.info("加速了 {} 株植物的生长", plantsAffected);
+            //LOGGER.info("加速了 {} 株植物的生长", plantsAffected);
 
             // 视觉效果（粒子效果）
             serverLevel.sendParticles(
@@ -204,13 +145,11 @@ public class EarthRune extends MagicalRune {
         });
     }
 
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return 5201314;
-    }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW; // 使用弓箭的动画效果
+    public Consumer<RuneContext> getEffectConsumer() {
+        return context->{
+            activateGrowthEffect(context.getPlayer());
+        };
     }
 }

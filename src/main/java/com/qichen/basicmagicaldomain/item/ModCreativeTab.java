@@ -2,6 +2,7 @@ package com.qichen.basicmagicaldomain.item;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
 import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
+import com.qichen.basicmagicaldomain.item.custom.rune.WoodRune;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -20,6 +21,7 @@ public class ModCreativeTab {
             .icon(() -> new ItemStack(EarthRune.EARTH_RUNE.get()))
             .displayItems((params, output) -> {
                 output.accept(EarthRune.EARTH_RUNE.get());
+                output.accept(WoodRune.Wood_Rune.get());
             })
             .build()
     );
