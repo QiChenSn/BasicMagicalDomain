@@ -1,6 +1,7 @@
 package com.qichen.basicmagicaldomain.datagen;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.item.ModItemRegister;
 import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
 import com.qichen.basicmagicaldomain.item.custom.rune.WoodRune;
 import net.minecraft.data.PackOutput;
@@ -19,6 +20,8 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         handheldItem(EarthRune.EARTH_RUNE);
         handheldItem(WoodRune.Wood_Rune);
+        handheldItem(ModItemRegister.Magical_RUNE
+        );
     }
     private ItemModelBuilder handheldItem(DeferredItem<?> item) {
         return withExistingParent(item.getId().getPath(),

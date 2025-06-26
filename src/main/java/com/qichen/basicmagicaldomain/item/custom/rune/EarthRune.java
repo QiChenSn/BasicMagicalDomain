@@ -128,7 +128,7 @@ public class EarthRune extends MagicalRune {
             int remainingTime = entry.getValue() - 1;
 
             if (remainingTime <= 0) {
-                LOGGER.info("玩家 {} 的植物生长效果已结束", playerId);
+                //LOGGER.info("玩家 {} 的植物生长效果已结束", playerId);
                 return true;
             }
 

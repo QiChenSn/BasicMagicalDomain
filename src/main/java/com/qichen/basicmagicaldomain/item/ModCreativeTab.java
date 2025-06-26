@@ -18,7 +18,7 @@ public class ModCreativeTab {
     
     public static final Supplier<CreativeModeTab> MAGICAL_DOMAIN_TAB = CREATIVE_MODE_TAB.register("magical_domain_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup." + BasicMagicalDomain.MODID + ".item"))
-            .icon(() -> new ItemStack(EarthRune.EARTH_RUNE.get()))
+            .icon(() -> new ItemStack(ModItemRegister.Magical_RUNE.get()))
             .displayItems((params, output) -> {
                 output.accept(EarthRune.EARTH_RUNE.get());
                 output.accept(WoodRune.Wood_Rune.get());
