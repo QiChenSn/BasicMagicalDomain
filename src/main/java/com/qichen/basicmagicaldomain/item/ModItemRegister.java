@@ -1,9 +1,7 @@
 package com.qichen.basicmagicaldomain.item;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
-import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
-import com.qichen.basicmagicaldomain.item.custom.rune.MagicalRune;
-import com.qichen.basicmagicaldomain.item.custom.rune.WoodRune;
+import com.qichen.basicmagicaldomain.item.custom.rune.*;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -26,6 +24,9 @@ public class ModItemRegister {
     public static void register(IEventBus eventBus){
         EarthRune.ITEMS.register(eventBus);
         WoodRune.ITEMS.register(eventBus);
+        FireRune.ITEMS.register(eventBus);
+        WaterRune.ITEMS.register(eventBus);
+        MetalRune.ITEMS.register(eventBus);
         ModItemRegister.ITEMS.register(eventBus);
     }
 }
