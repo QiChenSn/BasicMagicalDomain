@@ -19,8 +19,8 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         handheldItem(EarthRune.EARTH_RUNE);
         handheldItem(WoodRune.Wood_Rune);
-        handheldItem(WaterRune.WATER_Rune);
-        handheldItem(FireRune.FIRE_Rune);
+        handheldItem(WaterRune.WATER_RUNE);
+        handheldItem(FireRune.FIRE_RUNE);
         handheldItem(MetalRune.METAL_Rune);
         handheldItem(ModItemRegister.Magical_RUNE
         );

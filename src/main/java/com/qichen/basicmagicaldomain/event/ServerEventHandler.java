@@ -2,6 +2,8 @@ package com.qichen.basicmagicaldomain.event;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
 import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
+import com.qichen.basicmagicaldomain.item.custom.rune.FireRune;
+import com.qichen.basicmagicaldomain.item.custom.rune.WaterRune;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,5 +16,7 @@ public class ServerEventHandler {
     public static void onServerTick(ServerTickEvent.Post event) {
         MinecraftServer server = event.getServer();
         EarthRune.onServerTick(server);
+        WaterRune.onServerTick(server);
+        FireRune.onServerTick(server);
     }
 }

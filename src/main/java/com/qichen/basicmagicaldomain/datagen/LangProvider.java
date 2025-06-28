@@ -15,8 +15,8 @@ public class LangProvider extends LanguageProvider {
     protected void addTranslations() {
         add(EarthRune.EARTH_RUNE.get(), "Earth Rune");
         add(WoodRune.Wood_Rune.get(), "Wood Rune");
-        add(WaterRune.WATER_Rune.get(), "Water Rune");
-        add(FireRune.FIRE_Rune.get(), "Fire Rune");
+        add(WaterRune.WATER_RUNE.get(), "Water Rune");
+        add(FireRune.FIRE_RUNE.get(), "Fire Rune");
         add(MetalRune.METAL_Rune.get(), "Metal Rune");
         add(ModItemRegister.Magical_RUNE.get(), "Magical Rune");
         add("itemGroup." + BasicMagicalDomain.MODID + ".item","Item Tab");

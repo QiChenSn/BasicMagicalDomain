@@ -21,9 +21,9 @@ public class ModCreativeTab {
             .displayItems((params, output) -> {
                 output.accept(EarthRune.EARTH_RUNE.get());
                 output.accept(WoodRune.Wood_Rune.get());
-                output.accept(WaterRune.WATER_Rune.get());
+                output.accept(WaterRune.WATER_RUNE.get());
                 output.accept(MetalRune.METAL_Rune.get());
-                output.accept(FireRune.FIRE_Rune.get());
+                output.accept(FireRune.FIRE_RUNE.get());
             })
             .build()
     );
