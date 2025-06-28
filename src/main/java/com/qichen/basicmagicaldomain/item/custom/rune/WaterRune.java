@@ -2,7 +2,10 @@ package com.qichen.basicmagicaldomain.item.custom.rune;
 
 import com.mojang.logging.LogUtils;
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,14 +18,19 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -42,6 +50,57 @@ public class WaterRune extends MagicalRune {
     public static final DeferredItem<Item> WATER_RUNE = ITEMS.register("water_rune",()->
             new WaterRune(new Item.Properties(), Water, 60, 16, 60*20) // 范围16格，持续60秒
     );
+
+    @Override
+    @OnlyIn(Dist.CLIENT) // 确保只在客户端执行
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context,
+                                List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+        super.appendHoverText(stack, context, tooltipComponents, isAdvanced);
+
+        // 简略说明（始终显示）
+        tooltipComponents.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.title").withStyle(ChatFormatting.AQUA, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.function").withStyle(ChatFormatting.GOLD));
+        tooltipComponents.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.range_duration").withStyle(ChatFormatting.GRAY));
+
+        // 检测 Shift 键状态
+        boolean isShiftDown = isShiftKeyPressed();
+
+        if (isShiftDown) {
+            addDetailedTooltip(tooltipComponents);
+        } else {
+            tooltipComponents.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.hold_shift").withStyle(ChatFormatting.YELLOW));
+        }
+    }
+
+    // 检测 Shift 键是否按下
+    @OnlyIn(Dist.CLIENT)
+    private boolean isShiftKeyPressed() {
+        Minecraft minecraft = Minecraft.getInstance();
+        long windowHandle = minecraft.getWindow().getWindow();
+
+        return GLFW.glfwGetKey(windowHandle, GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS ||
+                GLFW.glfwGetKey(windowHandle, GLFW.GLFW_KEY_RIGHT_SHIFT) == GLFW.GLFW_PRESS;
+    }
+
+    // 添加详细提示内容
+    private void addDetailedTooltip(List<Component> tooltip) {
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.main_function").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.shockwave").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.range").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.duration").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.activation").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.effects").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.knockback").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.slow").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.weakness").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.literal(""));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.usage").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.hold_right").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.release").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("tooltip.basicmagicaldomain.water_rune.detailed.auto_shockwave").withStyle(ChatFormatting.GRAY));
+    }
 
     // 激活水之防御效果
     private void activateWaterDefenseEffect(Player player) {

@@ -22,5 +22,6 @@ public class ModDataGenerator {
         ExistingFileHelper helper = event.getExistingFileHelper();
         gen.addProvider(event.includeClient(),new ModItemModelProvider(output,helper));
         gen.addProvider(event.includeClient(),new LangProvider(output,"en_us"));
+        gen.addProvider(event.includeClient(),new ChineseLangProvider(output));
     }
 }
