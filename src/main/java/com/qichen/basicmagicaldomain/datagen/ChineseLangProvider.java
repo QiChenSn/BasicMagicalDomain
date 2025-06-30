@@ -20,7 +20,7 @@ public class ChineseLangProvider extends LanguageProvider {
         add(FireRune.FIRE_RUNE.get(), "§c火之符文"); // 红色
         add(MetalRune.METAL_Rune.get(), "§6金之符文"); // 金色
         add(ModItemRegister.Magical_RUNE.get(), "§d魔法符文"); // 紫色
-        add("itemGroup." + BasicMagicalDomain.MODID + ".item", "物品栏");
+        add("itemGroup." + BasicMagicalDomain.MODID + ".item", "基础魔法领域");
         
         // 土之符文提示文本
         add("tooltip.basicmagicaldomain.earth_rune.title", "- 大地之力的化身");

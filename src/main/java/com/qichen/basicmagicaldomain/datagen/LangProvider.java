@@ -19,7 +19,7 @@ public class LangProvider extends LanguageProvider {
         add(FireRune.FIRE_RUNE.get(), "§cFire Rune");
         add(MetalRune.METAL_Rune.get(), "§6Metal Rune");
         add(ModItemRegister.Magical_RUNE.get(), "§dMagical Rune");
-        add("itemGroup." + BasicMagicalDomain.MODID + ".item","Item Tab");
+        add("itemGroup." + BasicMagicalDomain.MODID + ".item","Basic Magical Domain");
         
         add("tooltip.basicmagicaldomain.earth_rune.title", "- Embodiment of Earth's Power");
         add("tooltip.basicmagicaldomain.earth_rune.function", "Function: Accelerate Plant Growth");

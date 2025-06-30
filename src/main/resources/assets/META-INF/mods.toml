@@ -1,0 +1,13 @@
+modLoader="javafml" # 固定值
+loaderVersion="[21.1.184,)" # 匹配 NeoForge 版本
+license="All rights reserved"
+issueTrackerURL="https://github.com/QiChenSn/BasicMagicalDomain/issues"
+
+[[mods]]
+modId="basicmagicaldomain"
+version="${file.jarVersion}" # 自动使用 gradle.properties 中的版本
+displayName="Basic Magical Domain"
+authors="QiChen"
+description='''
+A simple magic domain mod.
+'''
