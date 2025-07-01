@@ -1,6 +1,7 @@
 package com.qichen.basicmagicaldomain.item;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
 import com.qichen.basicmagicaldomain.item.custom.rune.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

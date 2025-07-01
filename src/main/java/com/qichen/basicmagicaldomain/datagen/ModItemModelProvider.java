@@ -22,8 +22,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(WaterRune.WATER_RUNE);
         handheldItem(FireRune.FIRE_RUNE);
         handheldItem(MetalRune.METAL_Rune);
-        handheldItem(ModItemRegister.Magical_RUNE
-        );
+        handheldItem(ModItemRegister.Magical_RUNE);
+        
+        // 为方块物品生成模型 - 使用简单的物品模型
+        basicItem(ModItemRegister.MAGICAL_ALTAR_ITEM.get());
     }
     private ItemModelBuilder handheldItem(DeferredItem<?> item) {
         return withExistingParent(item.getId().getPath(),

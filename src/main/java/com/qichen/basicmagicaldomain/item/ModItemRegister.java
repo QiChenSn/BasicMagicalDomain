@@ -1,7 +1,9 @@
 package com.qichen.basicmagicaldomain.item;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
 import com.qichen.basicmagicaldomain.item.custom.rune.*;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -19,6 +21,10 @@ public class ModItemRegister {
                     return null;
                 }
             } // 范围30格，持续60秒
+    );
+    public static final DeferredItem<Item> MAGICAL_ALTAR_ITEM = ITEMS.register(
+            "magical_altar_item",
+            () -> new BlockItem(MaigalAltar.MAGICAL_ALTAR.get(), new Item.Properties())
     );
 
     public static void register(IEventBus eventBus){

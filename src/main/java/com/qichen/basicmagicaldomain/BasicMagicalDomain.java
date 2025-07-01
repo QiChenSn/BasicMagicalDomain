@@ -1,5 +1,6 @@
 package com.qichen.basicmagicaldomain;
 
+import com.qichen.basicmagicaldomain.block.ModBlockRegister;
 import com.qichen.basicmagicaldomain.datagen.ModDataGenerator;
 import com.qichen.basicmagicaldomain.item.ModCreativeTab;
 import com.qichen.basicmagicaldomain.item.ModItemRegister;
@@ -49,6 +50,7 @@ public class BasicMagicalDomain {
         
         // Register items first
         ModItemRegister.register(modEventBus);
+        ModBlockRegister.register(modEventBus);
         
         // Then register creative tab
         ModCreativeTab.register(modEventBus);

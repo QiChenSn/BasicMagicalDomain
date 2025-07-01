@@ -24,3 +24,17 @@ runs
 run-data
 
 repo
+/src/generated/resources/.cache/5ce9e4a5ce61bfe72f8972d486f47486ff7e1a68
+/src/generated/resources/.cache/1884100a831f4672380bac0e78f2ffa8967ef4a9
+/src/generated/resources/.cache/e287c2ed6d3382f3e2280b741c0182d00cb5aee1
+/src/generated/resources/.cache/e830a46a61d659e55f75f16b976d0c155a38a759
+/src/generated/resources/assets/basicmagicaldomain/lang/en_us.json
+/src/generated/resources/assets/basicmagicaldomain/lang/zh_cn.json
+/src/generated/resources/assets/basicmagicaldomain/models/block/magical_altar.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/earth_rune.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/fire_rune.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/magical_altar_item.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/magical_rune.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/metal_rune.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/water_rune.json
+/src/generated/resources/assets/basicmagicaldomain/models/item/wood_rune.json
