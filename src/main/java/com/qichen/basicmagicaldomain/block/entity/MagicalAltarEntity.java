@@ -1,11 +1,16 @@
 package com.qichen.basicmagicaldomain.block.entity;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.item.custom.rune.MagicalRune;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,10 +20,11 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
 import java.util.function.Supplier;
 
-public class MagicalAltarEntity extends BlockEntity  {
-    public MagicalAltarEntity( BlockPos pos, BlockState blockState) {
+public class MagicalAltarEntity extends BlockEntity {
+    public MagicalAltarEntity(BlockPos pos, BlockState blockState) {
         super(MAGICAL_ALTAR_ENTITY.get(), pos, blockState);
     }
+
     // 在模组初始化类中定义注册器
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES =
             DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, BasicMagicalDomain.MODID);
@@ -32,13 +38,23 @@ public class MagicalAltarEntity extends BlockEntity  {
     );
 
     //实现物品存储
-    private static final int INVENTORY_SIZE=1;
+    private static final int INVENTORY_SIZE = 1;
     private final ItemStackHandler itemHandler = new ItemStackHandler(INVENTORY_SIZE) {
         @Override
         protected void onContentsChanged(int slot) {
             // 当物品栏内容发生变化时，这个方法会被调用
             // 我们需要在这里调用 setChanged() 来通知Minecraft该方块实体的数据已更新，需要保存
             setChanged();
+        }
+
+        @Override
+        public boolean isItemValid(int slot, ItemStack stack) {
+            return this.getStackInSlot(slot).isEmpty()&&stack.getItem() instanceof MagicalRune rune;
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
         }
     };
 
@@ -50,7 +66,8 @@ public class MagicalAltarEntity extends BlockEntity  {
 
     /**
      * 当世界保存时，这个方法被调用，用于将方块实体的数据写入NBT
-     * @param pTag NBT标签，我们将把数据写入这里
+     *
+     * @param pTag        NBT标签，我们将把数据写入这里
      * @param pRegistries 注册表查找
      */
     @Override
@@ -64,7 +81,8 @@ public class MagicalAltarEntity extends BlockEntity  {
 
     /**
      * 当世界加载时，这个方法被调用，用于从NBT中读取方块实体的数据
-     * @param pTag 包含方块实体数据的NBT标签
+     *
+     * @param pTag        包含方块实体数据的NBT标签
      * @param pRegistries 注册表查找
      */
     @Override
@@ -77,4 +95,32 @@ public class MagicalAltarEntity extends BlockEntity  {
             itemHandler.deserializeNBT(pRegistries, pTag.getCompound("rune"));
         }
     }
+
+    //根据物品实现逻辑
+    public static void tick(Level level, BlockPos pos, BlockState state, MagicalAltarEntity be) {
+        // 从物品栏的第一个（也是唯一一个）槽位获取物品
+        ItemStack stack = be.itemHandler.getStackInSlot(0);
+
+        if (stack.isEmpty()) {
+            return; // 后面逻辑不执行
+        }
+        // 判断放入的是否是符文
+        if (stack.getItem() instanceof MagicalRune rune) {
+            if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.FireRune) {
+                // 火符文效果
+            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.WaterRune) {
+                // 水符文效果
+            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.EarthRune) {
+                // 土符文效果
+            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.MetalRune) {
+                // 金符文效果
+            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.WoodRune) {
+                // 木符文效果
+            } else {
+                // 其他符文（如魔法符文等）效果
+            }
+        }
+    }
+
+
 }
