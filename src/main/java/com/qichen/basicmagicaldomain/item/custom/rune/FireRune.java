@@ -25,6 +25,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.apache.http.util.EntityUtils;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 
@@ -203,6 +204,55 @@ public class FireRune extends MagicalRune {
             entry.setValue(remainingTime);
             return false;
         });
+    }
+
+    public void applyOnAltar(Level level,BlockPos pos){
+        AABB area=new AABB(
+                pos.getX()-this.range,pos.getY()-2,pos.getZ()-this.range,
+                pos.getX()+this.range,pos.getY()+2,pos.getZ()+this.range
+        );
+        int entitiesAffected = 0;
+        // 获取区域内的所有实体
+        if(level.isClientSide)return;
+        for (Entity entity : level.getEntities(null, area)) {
+            if (entity instanceof LivingEntity livingEntity) {
+                // 只对敌对生物生效
+                if (livingEntity.getType().getCategory() == net.minecraft.world.entity.MobCategory.MONSTER) {
+                    // 计算距离
+                    double distance = pos.getCenter().distanceTo(entity.position());
+
+                    // 根据距离计算伤害
+                    float damage = Math.max(2.0f, 8.0f - (float)(distance * 0.5));
+
+                    // 造成火焰伤害
+                    livingEntity.hurt(level.damageSources().fireball(null,entity), damage);
+
+                    // 应用燃烧效果
+                    livingEntity.igniteForSeconds(5);
+
+                    // 应用混乱效果
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+
+                    entitiesAffected++;
+                }
+            }
+        }
+        ServerLevel serverLevel= (ServerLevel) level;
+        BlockPos center=pos;
+        // 视觉效果（火焰粒子效果）
+        serverLevel.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.FLAME,
+                center.getX(), center.getY() + 1, center.getZ(),
+                300,
+                range, 2, range,
+                0.2
+        );
+
+        // 播放火焰爆发音效
+        serverLevel.playSound(null, center.getX(), center.getY(), center.getZ(),
+                SoundEvents.GENERIC_EXPLODE,
+                SoundSource.PLAYERS,
+                0.8F, 1.2F);
     }
 
     @Override

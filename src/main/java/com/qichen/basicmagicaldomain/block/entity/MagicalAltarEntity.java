@@ -1,6 +1,7 @@
 package com.qichen.basicmagicaldomain.block.entity;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.item.custom.rune.FireRune;
 import com.qichen.basicmagicaldomain.item.custom.rune.MagicalRune;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -97,6 +98,7 @@ public class MagicalAltarEntity extends BlockEntity {
     }
 
     //根据物品实现逻辑
+    static int tickcount=0;
     public static void tick(Level level, BlockPos pos, BlockState state, MagicalAltarEntity be) {
         // 从物品栏的第一个（也是唯一一个）槽位获取物品
         ItemStack stack = be.itemHandler.getStackInSlot(0);
@@ -104,10 +106,14 @@ public class MagicalAltarEntity extends BlockEntity {
         if (stack.isEmpty()) {
             return; // 后面逻辑不执行
         }
+        tickcount++;
+        tickcount%=20;
+        if(tickcount!=0)return;
         // 判断放入的是否是符文
         if (stack.getItem() instanceof MagicalRune rune) {
             if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.FireRune) {
                 // 火符文效果
+                ((FireRune) rune).applyOnAltar(level,pos);
             } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.WaterRune) {
                 // 水符文效果
             } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.EarthRune) {
