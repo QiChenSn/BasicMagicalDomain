@@ -1,6 +1,7 @@
 package com.qichen.basicmagicaldomain.item.custom.rune;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.util.ItemOperator;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -14,8 +15,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -24,6 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -36,6 +40,8 @@ import java.util.function.Consumer;
 
 import static net.minecraft.SharedConstants.TICKS_PER_SECOND;
 import static net.minecraft.world.item.Items.NETHERITE_PICKAXE;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.minecraft.server.level.ServerPlayer;
 
 public class MetalRune extends MagicalRune{
 
@@ -200,5 +206,53 @@ public class MetalRune extends MagicalRune{
 
         // 立即启动第一次任务
         server.tell(new TickTask(server.getTickCount(), task));
+    }
+
+    public static int timer=0;
+    public void applyOnAltar(Level level, BlockPos pos, IItemHandler iItemHandler) {
+        if (level.isClientSide) return;
+        if (!(level instanceof ServerLevel serverLevel)) return;
+
+        // 查找范围内所有矿石
+        List<BlockPos> ores = new ArrayList<>();
+        BlockPos center = pos;
+        int range = 30;
+        for (int x = -range; x <= range; x++) {
+            for (int y = -range; y <= range; y++) {
+                for (int z = -range; z <= range; z++) {
+                    BlockPos checkPos = center.offset(x, y, z);
+                    BlockState state = level.getBlockState(checkPos);
+                    if (state.is(Tags.Blocks.ORES)) {
+                        ores.add(checkPos);
+                    }
+                }
+            }
+        }
+
+        // 随机插入容器
+        timer++;
+        timer %= 3;
+        if (timer != 0) {
+            return;
+        }
+
+        double successProbability = 0.5;
+        if (!ores.isEmpty() && Math.random() < successProbability) {
+            BlockPos randomOrePos = ores.get(level.random.nextInt(ores.size()));
+            BlockState state = level.getBlockState(randomOrePos);
+            // 创建伪玩家
+            ServerPlayer fakePlayer = FakePlayerFactory.getMinecraft(serverLevel);
+            LootParams.Builder paramsBuilder = new LootParams.Builder(serverLevel)
+                    .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(randomOrePos))
+                    .withParameter(LootContextParams.BLOCK_STATE, state)
+                    .withParameter(LootContextParams.TOOL, NETHERITE_PICKAXE.getDefaultInstance())
+                    .withParameter(LootContextParams.THIS_ENTITY, fakePlayer);
+            List<ItemStack> drops = state.getDrops(paramsBuilder);
+            if (!drops.isEmpty()) {
+                ItemStack randomDrop = drops.get(level.random.nextInt(drops.size())).copy();
+                randomDrop.setCount(1);
+                ItemOperator.tryInsertItem(iItemHandler, randomDrop);
+            }
+        }
     }
 }

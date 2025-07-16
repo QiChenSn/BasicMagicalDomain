@@ -3,6 +3,7 @@ package com.qichen.basicmagicaldomain.item.custom.rune;
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -10,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockCollisions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
@@ -83,6 +85,28 @@ public class WoodRune extends MagicalRune{
         tooltip.add(Component.translatable("tooltip.basicmagicaldomain.wood_rune.detailed.hold_right").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("tooltip.basicmagicaldomain.wood_rune.detailed.release").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("tooltip.basicmagicaldomain.wood_rune.detailed.auto_heal").withStyle(ChatFormatting.GRAY));
+    }
+
+    public void applyOnAltar(Level level, BlockPos pos){
+        AABB area=new AABB(pos.getX()-this.range,pos.getY()-this.range,pos.getZ()-this.range,pos.getX()+this.range,pos.getY()+this.range,pos.getZ()+this.range);
+        level.getEntitiesOfClass(Player.class,area).forEach(aplayer -> {
+            // 持续恢复生命值（每秒1❤️，持续5秒）
+            aplayer.addEffect(new MobEffectInstance(
+                    MobEffects.REGENERATION, // 再生效果
+                    this.effect_time,    // 持续时间（100 ticks = 5秒）
+                    0,      // 效果等级（0级=每秒恢复1❤️）
+                    false,  // 无粒子效果
+                    true    // 显示图标
+            ));
+
+            // 持续恢复饱食度（每秒恢复1点饥饿值和饱和度，持续5秒）
+            aplayer.addEffect(new MobEffectInstance(
+                    MobEffects.SATURATION, // 饱和效果（瞬间恢复，但通过延长持续时间模拟持续恢复）
+                    this.effect_time,     // 每2tick执行一次（每秒10次）
+                    0,      // 每次恢复1点饥饿值和饱和度
+                    false,
+                    true
+            ));});
     }
 
     @Override

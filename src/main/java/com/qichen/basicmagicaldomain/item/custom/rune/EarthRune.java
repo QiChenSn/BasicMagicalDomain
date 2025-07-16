@@ -14,7 +14,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
@@ -194,6 +196,49 @@ public class EarthRune extends MagicalRune {
         });
     }
 
+    public void applyOnAltar(Level level, BlockPos Pos) {
+        if(level.isClientSide)return;
+        BlockPos center = Pos;
+        int range = this.range; // 效果范围
+
+        // 计算效果区域
+        AABB area = new AABB(
+                center.getX() - range, center.getY() - 5, center.getZ() - range,
+                center.getX() + range, center.getY() + 5, center.getZ() + range
+        );
+
+        int plantsAffected = 0;
+        ServerLevel serverLevel= (ServerLevel) level;
+        // 遍历区域内的所有方块
+        for (int x = (int) area.minX; x <= area.maxX; x++) {
+            for (int y = (int) area.minY; y <= area.maxY; y++) {
+                for (int z = (int) area.minZ; z <= area.maxZ; z++) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    BlockState state = serverLevel.getBlockState(pos);
+
+                    // 检查是否是植物
+                    if (isPlant(state)) {
+                        // 加速植物生长（施加额外的随机刻）
+                        for (int i = 0; i < 10; i++) {
+                            state.randomTick(serverLevel, pos, serverLevel.random);
+                        }
+                        plantsAffected++;
+                    }
+                }
+            }
+        }
+
+        //LOGGER.info("加速了 {} 株植物的生长", plantsAffected);
+
+        // 视觉效果（粒子效果）
+        serverLevel.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.HAPPY_VILLAGER,
+                center.getX(), center.getY() + 1, center.getZ(),
+                100,
+                range, 2, range,
+                0.1
+        );
+    }
 
     @Override
     public Consumer<RuneContext> getEffectConsumer() {

@@ -1,13 +1,13 @@
 package com.qichen.basicmagicaldomain.block.entity;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
-import com.qichen.basicmagicaldomain.item.custom.rune.FireRune;
-import com.qichen.basicmagicaldomain.item.custom.rune.MagicalRune;
+import com.qichen.basicmagicaldomain.item.custom.rune.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -15,11 +15,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Supplier;
+import java.util.logging.Handler;
 
 public class MagicalAltarEntity extends BlockEntity {
     public MagicalAltarEntity(BlockPos pos, BlockState blockState) {
@@ -111,17 +116,33 @@ public class MagicalAltarEntity extends BlockEntity {
         if(tickcount!=0)return;
         // 判断放入的是否是符文
         if (stack.getItem() instanceof MagicalRune rune) {
-            if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.FireRune) {
+            if (rune instanceof FireRune) {
                 // 火符文效果
                 ((FireRune) rune).applyOnAltar(level,pos);
-            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.WaterRune) {
+            } else if (rune instanceof WaterRune) {
                 // 水符文效果
-            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.EarthRune) {
+                ((WaterRune) rune).applyOnAltar(level,pos);
+            } else if (rune instanceof EarthRune) {
                 // 土符文效果
-            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.MetalRune) {
+                ((EarthRune) rune).applyOnAltar(level,pos);
+            } else if (rune instanceof MetalRune) {
                 // 金符文效果
-            } else if (rune instanceof com.qichen.basicmagicaldomain.item.custom.rune.WoodRune) {
+                // 遍历六个方向，查找第一个有IItemHandler能力的方块实体
+                IItemHandler foundHandler = null;
+                for (net.minecraft.core.Direction direction : net.minecraft.core.Direction.values()) {
+                    BlockPos neighborPos = pos.relative(direction);
+                    IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, neighborPos, direction.getOpposite());
+                    if (handler != null) {
+                        foundHandler = handler;
+                        break;
+                    }
+                }
+                if (foundHandler != null) {
+                    ((MetalRune) rune).applyOnAltar(level, pos, foundHandler);
+                }
+            } else if (rune instanceof WoodRune) {
                 // 木符文效果
+                ((WoodRune) rune).applyOnAltar(level,pos);
             } else {
                 // 其他符文（如魔法符文等）效果
             }

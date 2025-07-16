@@ -207,7 +207,63 @@ public class WaterRune extends MagicalRune {
             return false;
         });
     }
+    public void applyOnAltar(Level level, BlockPos pos) {
 
+        BlockPos center = pos;
+        int range = this.range; // 冲击波范围
+
+        // 计算效果区域
+        AABB area = new AABB(
+                center.getX() - range, center.getY() - 2, center.getZ() - range,
+                center.getX() + range, center.getY() + 3, center.getZ() + range
+        );
+
+        int entitiesAffected = 0;
+        if(level.isClientSide)return;
+        ServerLevel serverLevel= (ServerLevel) level;
+        // 获取区域内的所有实体
+        for (Entity entity : serverLevel.getEntities(null, area)) {
+            if (entity instanceof LivingEntity livingEntity ) {
+                // 只对敌对生物生效
+                if (livingEntity.getType().getCategory() == net.minecraft.world.entity.MobCategory.MONSTER) {
+                    // 计算推开方向和距离
+                    Vec3 playerPos = center.getCenter();
+                    Vec3 entityPos = entity.position();
+                    Vec3 direction = entityPos.subtract(playerPos).normalize();
+
+                    // 根据距离计算推开力度
+                    double distance = playerPos.distanceTo(entityPos);
+                    double force = Math.max(0.5, 2.0 - distance / range);
+
+                    // 应用推开效果
+                    entity.setDeltaMovement(direction.scale(force));
+                    entity.hurtMarked = true;
+
+                    // 应用减速效果
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 1));
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+
+                    entitiesAffected++;
+                }
+            }
+
+
+            // 视觉效果（水粒子效果）
+            serverLevel.sendParticles(
+                    net.minecraft.core.particles.ParticleTypes.DRIPPING_WATER,
+                    center.getX(), center.getY() + 1, center.getZ(),
+                    200,
+                    range, 2, range,
+                    0.3
+            );
+
+            // 播放冲击波音效
+            serverLevel.playSound(null, center.getX(), center.getY(), center.getZ(),
+                    SoundEvents.GENERIC_SPLASH,
+                    SoundSource.PLAYERS,
+                    1.0F, 0.8F);
+        }
+    }
     @Override
     public Consumer<RuneContext> getEffectConsumer() {
         return context -> {
