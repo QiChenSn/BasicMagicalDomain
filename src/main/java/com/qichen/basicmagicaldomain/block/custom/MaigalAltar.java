@@ -61,17 +61,6 @@ public class MaigalAltar extends Block implements EntityBlock {
                 ((ServerPlayer) player).openMenu(new SimpleMenuProvider(magicalAltarEntity, Component.literal("MagicalAltar")), pos);
                 return ItemInteractionResult.SUCCESS;
             }
-//
-//            if(magicalAltarEntity.getItemHandler().getStackInSlot(0).isEmpty() && !stack.isEmpty()&&magicalAltarEntity.getItemHandler().isItemValid(0,stack)) {
-//                magicalAltarEntity.getItemHandler().insertItem(0, stack.copy(), false);
-//                stack.shrink(1);
-//                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
-//            } else if(stack.isEmpty()) {
-//                ItemStack stackOnPedestal = magicalAltarEntity.getItemHandler().extractItem(0, 1, false);
-//                player.setItemInHand(InteractionHand.MAIN_HAND, stackOnPedestal);
-//                magicalAltarEntity.clearContents();
-//                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 1f);
-//            }
         }
 
         return ItemInteractionResult.SUCCESS;
