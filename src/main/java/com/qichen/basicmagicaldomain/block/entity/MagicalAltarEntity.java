@@ -2,20 +2,21 @@ package com.qichen.basicmagicaldomain.block.entity;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
 import com.qichen.basicmagicaldomain.item.custom.rune.*;
+import com.qichen.basicmagicaldomain.screen.custom.MagicalAltarMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -24,9 +25,8 @@ import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
-import java.util.logging.Handler;
 
-public class MagicalAltarEntity extends BlockEntity {
+public class MagicalAltarEntity extends BlockEntity implements MenuProvider {
     public MagicalAltarEntity(BlockPos pos, BlockState blockState) {
         super(MAGICAL_ALTAR_ENTITY.get(), pos, blockState);
     }
@@ -63,6 +63,10 @@ public class MagicalAltarEntity extends BlockEntity {
             return 1;
         }
     };
+
+    public void clearContents() {
+        itemHandler.setStackInSlot(0, ItemStack.EMPTY);
+    }
 
     // 提供一个公共方法来获取物品栏处理器，方便从其他地方访问
     public IItemHandler getItemHandler() {
@@ -150,4 +154,13 @@ public class MagicalAltarEntity extends BlockEntity {
     }
 
 
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("Magical Altar");
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+        return new MagicalAltarMenu(containerId, playerInventory, this);
+    }
 }

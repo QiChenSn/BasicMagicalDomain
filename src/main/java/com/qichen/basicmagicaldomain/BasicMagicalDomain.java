@@ -5,8 +5,11 @@ import com.qichen.basicmagicaldomain.datagen.ModDataGenerator;
 import com.qichen.basicmagicaldomain.item.ModCreativeTab;
 import com.qichen.basicmagicaldomain.item.ModItemRegister;
 import com.qichen.basicmagicaldomain.item.custom.rune.EarthRune;
+import com.qichen.basicmagicaldomain.screen.ModMenuType;
+import com.qichen.basicmagicaldomain.screen.custom.MagicalAltarScreen;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.EventBus;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -52,6 +55,9 @@ public class BasicMagicalDomain {
         ModItemRegister.register(modEventBus);
         ModBlockRegister.register(modEventBus);
         
+        // Register menu types
+        ModMenuType.register(modEventBus);
+        
         // Then register creative tab
         ModCreativeTab.register(modEventBus);
         
@@ -83,6 +89,10 @@ public class BasicMagicalDomain {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        }
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(ModMenuType.MagicalAltar_MENU.get(), MagicalAltarScreen::new);
         }
     }
 }
