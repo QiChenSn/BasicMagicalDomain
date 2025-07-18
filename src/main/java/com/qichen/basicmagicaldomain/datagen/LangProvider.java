@@ -13,11 +13,11 @@ public class LangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add(EarthRune.EARTH_RUNE.get(), "§6Earth Rune");
-        add(WoodRune.Wood_Rune.get(), "§aWood Rune");
-        add(WaterRune.WATER_RUNE.get(), "§bWater Rune");
-        add(FireRune.FIRE_RUNE.get(), "§cFire Rune");
-        add(MetalRune.METAL_Rune.get(), "§6Metal Rune");
+        add(ModItemRegister.EARTH_RUNE.get(), "§6Earth Rune");
+        add(ModItemRegister.Wood_Rune.get(), "§aWood Rune");
+        add(ModItemRegister.WATER_RUNE.get(), "§bWater Rune");
+        add(ModItemRegister.FIRE_RUNE.get(), "§cFire Rune");
+        add(ModItemRegister.METAL_Rune.get(), "§6Metal Rune");
         add(ModItemRegister.Magical_RUNE.get(), "§dMagical Rune");
         add(ModItemRegister.MAGICAL_ALTAR_ITEM.get(), "§5Magical Altar");
         add("itemGroup." + BasicMagicalDomain.MODID + ".item","Basic Magical Domain");

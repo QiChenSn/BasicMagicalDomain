@@ -14,11 +14,11 @@ public class ChineseLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         // 物品名称 - 使用与tooltip标题相同的颜色
-        add(EarthRune.EARTH_RUNE.get(), "§6土之符文"); // 金色
-        add(WoodRune.Wood_Rune.get(), "§a木之符文"); // 绿色
-        add(WaterRune.WATER_RUNE.get(), "§b水之符文"); // 青色
-        add(FireRune.FIRE_RUNE.get(), "§c火之符文"); // 红色
-        add(MetalRune.METAL_Rune.get(), "§6金之符文"); // 金色
+        add(ModItemRegister.EARTH_RUNE.get(), "§6土之符文"); // 金色
+        add(ModItemRegister.Wood_Rune.get(), "§a木之符文"); // 绿色
+        add(ModItemRegister.WATER_RUNE.get(), "§b水之符文"); // 青色
+        add(ModItemRegister.FIRE_RUNE.get(), "§c火之符文"); // 红色
+        add(ModItemRegister.METAL_Rune.get(), "§6金之符文"); // 金色
         add(ModItemRegister.Magical_RUNE.get(), "§d魔法符文"); // 紫色
         add(ModItemRegister.MAGICAL_ALTAR_ITEM.get(), "§5魔法祭坛"); // 紫色
         add("itemGroup." + BasicMagicalDomain.MODID + ".item", "基础魔法领域");

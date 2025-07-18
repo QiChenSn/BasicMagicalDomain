@@ -2,6 +2,7 @@ package com.qichen.basicmagicaldomain.item.custom.rune;
 
 import com.mojang.logging.LogUtils;
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.item.ModItemRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -45,11 +46,6 @@ public class FireRune extends MagicalRune {
         super(properties, MagicalRune.Fire, USE_DURATION, range, effect_time);
     }
 
-    public static final DeferredRegister.Items ITEMS =
-            DeferredRegister.createItems(BasicMagicalDomain.MODID);
-    public static final DeferredItem<Item> FIRE_RUNE = ITEMS.register("fire_rune",()->
-            new FireRune(new Item.Properties(), Fire, 60, 16, 60*20) // 范围16格，持续60秒
-    );
 
     @Override
     @OnlyIn(Dist.CLIENT) // 确保只在客户端执行

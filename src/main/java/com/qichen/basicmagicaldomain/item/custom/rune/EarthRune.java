@@ -2,6 +2,7 @@ package com.qichen.basicmagicaldomain.item.custom.rune;
 
 import com.mojang.logging.LogUtils;
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.item.ModItemRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -42,11 +43,7 @@ public class EarthRune extends MagicalRune {
         super(properties, MagicalRune.Earth, USE_DURATION,range,effect_time);
     }
 
-    public static final DeferredRegister.Items ITEMS =
-            DeferredRegister.createItems(BasicMagicalDomain.MODID);
-    public static final DeferredItem<Item> EARTH_RUNE = ITEMS.register("earth_rune",()->
-            new EarthRune(new Item.Properties(), Earth, 60,16, 60*20) // 范围30格，持续60秒
-    );
+
     @Override
     @OnlyIn(Dist.CLIENT) // 确保只在客户端执行
     public void appendHoverText(ItemStack stack, Item.TooltipContext context,

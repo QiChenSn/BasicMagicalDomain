@@ -1,14 +1,12 @@
 package com.qichen.basicmagicaldomain.block.custom;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.block.ModBlockRegister;
 import com.qichen.basicmagicaldomain.block.entity.MagicalAltarEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -27,19 +25,11 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 
-public class MaigalAltar extends Block implements EntityBlock {
-    public MaigalAltar(Properties properties) {
+public class MagicalAltar extends Block implements EntityBlock {
+    public MagicalAltar(Properties properties) {
         super(properties);
     }
 
-    public static final DeferredRegister.Blocks BLOCKS =
-            DeferredRegister.createBlocks(BasicMagicalDomain.MODID);
-    public static final DeferredBlock<MaigalAltar> MAGICAL_ALTAR =
-            BLOCKS.register("magical_altar", () -> new MaigalAltar(BlockBehaviour.Properties.of()
-                    .destroyTime(2.0f)
-                    .explosionResistance(10.0f)
-                    .sound(SoundType.GRAVEL)
-                    .lightLevel(state -> 7)));
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new MagicalAltarEntity(blockPos,blockState);

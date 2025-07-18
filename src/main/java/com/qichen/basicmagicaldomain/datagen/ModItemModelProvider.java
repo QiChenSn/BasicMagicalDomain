@@ -17,11 +17,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        handheldItem(EarthRune.EARTH_RUNE);
-        handheldItem(WoodRune.Wood_Rune);
-        handheldItem(WaterRune.WATER_RUNE);
-        handheldItem(FireRune.FIRE_RUNE);
-        handheldItem(MetalRune.METAL_Rune);
+        handheldItem(ModItemRegister.EARTH_RUNE);
+        handheldItem(ModItemRegister.Wood_Rune);
+        handheldItem(ModItemRegister.WATER_RUNE);
+        handheldItem(ModItemRegister.FIRE_RUNE);
+        handheldItem(ModItemRegister.METAL_Rune);
         handheldItem(ModItemRegister.Magical_RUNE);
         
         // 为方块物品生成模型 - 使用简单的物品模型

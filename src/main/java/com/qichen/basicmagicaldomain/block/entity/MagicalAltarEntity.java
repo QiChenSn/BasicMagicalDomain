@@ -1,6 +1,7 @@
 package com.qichen.basicmagicaldomain.block.entity;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.block.ModBlockRegister;
 import com.qichen.basicmagicaldomain.item.custom.rune.*;
 import com.qichen.basicmagicaldomain.screen.custom.MagicalAltarMenu;
 import net.minecraft.core.BlockPos;
@@ -21,7 +22,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
+import com.qichen.basicmagicaldomain.block.custom.MagicalAltar;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -39,7 +40,7 @@ public class MagicalAltarEntity extends BlockEntity implements MenuProvider {
             "magical_altar_entity",
             () -> BlockEntityType.Builder.of(
                     MagicalAltarEntity::new, // 实体构造函数
-                    MaigalAltar.MAGICAL_ALTAR.get() // 关联的方块
+                    ModBlockRegister.MAGICAL_ALTAR.get() // 关联的方块
             ).build(null)
     );
 

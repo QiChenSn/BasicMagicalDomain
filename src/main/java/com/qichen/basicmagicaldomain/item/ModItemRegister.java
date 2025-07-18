@@ -1,7 +1,8 @@
 package com.qichen.basicmagicaldomain.item;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
-import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
+import com.qichen.basicmagicaldomain.block.ModBlockRegister;
+import com.qichen.basicmagicaldomain.block.custom.MagicalAltar;
 import com.qichen.basicmagicaldomain.item.custom.rune.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,17 +23,27 @@ public class ModItemRegister {
                 }
             } // 范围30格，持续60秒
     );
+    public static final DeferredItem<Item> EARTH_RUNE = ITEMS.register("earth_rune",()->
+            new EarthRune(new Item.Properties(), EarthRune.Earth, 60,16, 60*20) // 范围30格，持续60秒
+    );
+    public static final DeferredItem<Item> FIRE_RUNE = ITEMS.register("fire_rune",()->
+            new FireRune(new Item.Properties(), FireRune.Fire, 60, 16, 60*20) // 范围16格，持续60秒
+    );
+    public static final DeferredItem<Item> METAL_Rune = ITEMS.register("metal_rune",()->
+            new MetalRune(new Item.Properties(), MetalRune.Metal, 60,16, 60*20) // 范围30格，持续60秒
+    );
+    public static final DeferredItem<Item> WATER_RUNE = ITEMS.register("water_rune",()->
+            new WaterRune(new Item.Properties(), WaterRune.Water, 60, 16, 60*20) // 范围16格，持续60秒
+    );
+    public static final DeferredItem<Item> Wood_Rune = ITEMS.register("wood_rune",()->
+            new WoodRune(new Item.Properties(), WoodRune.Wood, 60,16, 60*20) // 范围30格，持续60秒
+    );
     public static final DeferredItem<Item> MAGICAL_ALTAR_ITEM = ITEMS.register(
             "magical_altar_item",
-            () -> new BlockItem(MaigalAltar.MAGICAL_ALTAR.get(), new Item.Properties())
+            () -> new BlockItem(ModBlockRegister.MAGICAL_ALTAR.get(), new Item.Properties())
     );
 
     public static void register(IEventBus eventBus){
-        EarthRune.ITEMS.register(eventBus);
-        WoodRune.ITEMS.register(eventBus);
-        FireRune.ITEMS.register(eventBus);
-        WaterRune.ITEMS.register(eventBus);
-        MetalRune.ITEMS.register(eventBus);
         ModItemRegister.ITEMS.register(eventBus);
     }
 }

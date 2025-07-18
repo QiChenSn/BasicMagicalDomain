@@ -1,6 +1,7 @@
 package com.qichen.basicmagicaldomain.item.custom.rune;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
+import com.qichen.basicmagicaldomain.item.ModItemRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -29,12 +30,6 @@ public class WoodRune extends MagicalRune{
     public WoodRune(Properties properties, int type, int USE_DURATION, int range, int effect_time) {
         super(properties, type, USE_DURATION, range, effect_time);
     }
-
-    public static final DeferredRegister.Items ITEMS =
-            DeferredRegister.createItems(BasicMagicalDomain.MODID);
-    public static final DeferredItem<Item> Wood_Rune = ITEMS.register("wood_rune",()->
-            new WoodRune(new Item.Properties(), Wood, 60,16, 60*20) // 范围30格，持续60秒
-    );
 
     @Override
     @OnlyIn(Dist.CLIENT) // 确保只在客户端执行

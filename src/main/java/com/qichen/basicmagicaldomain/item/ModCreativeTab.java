@@ -1,7 +1,6 @@
 package com.qichen.basicmagicaldomain.item;
 
 import com.qichen.basicmagicaldomain.BasicMagicalDomain;
-import com.qichen.basicmagicaldomain.block.custom.MaigalAltar;
 import com.qichen.basicmagicaldomain.item.custom.rune.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -20,11 +19,12 @@ public class ModCreativeTab {
             .title(Component.translatable("itemGroup." + BasicMagicalDomain.MODID + ".item"))
             .icon(() -> new ItemStack(ModItemRegister.Magical_RUNE.get()))
             .displayItems((params, output) -> {
-                output.accept(EarthRune.EARTH_RUNE.get());
-                output.accept(WoodRune.Wood_Rune.get());
-                output.accept(WaterRune.WATER_RUNE.get());
-                output.accept(MetalRune.METAL_Rune.get());
-                output.accept(FireRune.FIRE_RUNE.get());
+                output.accept(ModItemRegister.EARTH_RUNE.get());
+                output.accept(ModItemRegister.Wood_Rune.get());
+                output.accept(ModItemRegister.WATER_RUNE.get());
+                output.accept(ModItemRegister.METAL_Rune.get());
+                output.accept(ModItemRegister.FIRE_RUNE.get());
+                output.accept(ModItemRegister.MAGICAL_ALTAR_ITEM.get());
             })
             .build()
     );
