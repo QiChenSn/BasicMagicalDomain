@@ -15,8 +15,5 @@ public class ModBlockModelProvider extends BlockModelProvider {
 
     @Override
     protected void registerModels() {
-        // 为魔法祭坛生成方块模型
-        cubeAll(ModBlockRegister.MAGICAL_ALTAR.getId().getPath(),
-            ResourceLocation.fromNamespaceAndPath(BasicMagicalDomain.MODID, "block/magical_altar"));
     }
 }
