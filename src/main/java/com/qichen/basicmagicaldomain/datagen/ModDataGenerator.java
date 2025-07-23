@@ -34,5 +34,6 @@ public class ModDataGenerator {
         gen.addProvider(event.includeClient(),new ChineseLangProvider(output));
         gen.addProvider(event.includeClient(),new LootTableProvider(output, Collections.emptySet(),
                 List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
+        gen.addProvider(event.includeClient(),new ModRecipeProvider(output,lookupProvider));
     }
 }

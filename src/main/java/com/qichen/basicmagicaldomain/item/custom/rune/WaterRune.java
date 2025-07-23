@@ -256,7 +256,7 @@ public class WaterRune extends MagicalRune {
             serverLevel.playSound(null, center.getX(), center.getY(), center.getZ(),
                     SoundEvents.GENERIC_SPLASH,
                     SoundSource.PLAYERS,
-                    1.0F, 0.8F);
+                    0.1F, 0.8F);
         }
     }
     @Override

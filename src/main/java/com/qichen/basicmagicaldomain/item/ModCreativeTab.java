@@ -19,6 +19,7 @@ public class ModCreativeTab {
             .title(Component.translatable("itemGroup." + BasicMagicalDomain.MODID + ".item"))
             .icon(() -> new ItemStack(ModItemRegister.Magical_RUNE.get()))
             .displayItems((params, output) -> {
+                output.accept(ModItemRegister.Magical_RUNE.get());
                 output.accept(ModItemRegister.EARTH_RUNE.get());
                 output.accept(ModItemRegister.Wood_Rune.get());
                 output.accept(ModItemRegister.WATER_RUNE.get());

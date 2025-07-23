@@ -248,7 +248,7 @@ public class FireRune extends MagicalRune {
         serverLevel.playSound(null, center.getX(), center.getY(), center.getZ(),
                 SoundEvents.GENERIC_EXPLODE,
                 SoundSource.PLAYERS,
-                0.8F, 1.2F);
+                0.1F, 1.2F);
     }
 
     @Override
